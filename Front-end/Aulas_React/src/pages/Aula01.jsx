@@ -4,7 +4,7 @@ export default function Aula01() {
     const [tamanhoFonte, setTamanhoFonte] = useState('text-base')
     const [corFonte, setCorFonte] = useState('text-black')
     return(
-        <div className="min-h-screen bg-linear-to-br from-pink-500 to-purple-600 p-2">
+        <div>
             <h1 className="text-4xl font-bold text-pink-600 text-center  bg-fuchsia-300 p-2">TAILWIND FUNCIONANDO</h1>
             <h2 className="text-3xl font-bold bg-fuchsia-300 text-pink-400  mb-4">🍓1° Demonstração interativa do tamanho das fontes 🍓</h2>
             <div className="mb-8 p-4 bg-pink-200 rounded">
