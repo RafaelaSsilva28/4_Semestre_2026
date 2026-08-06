@@ -1,11 +1,15 @@
-import Aula01 from "./pages/Aula01";
-import Aula02 from "./pages/Aula02";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import Login from "./pages/Login"
+import Principal from "./pages/Principal"
 
 export default function App(){
   return(
-    <div className="min-h-screen bg-linear-to-br from-pink-500 to-purple-600 p-2">
-      <Aula01 />
-      <Aula02 />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login/>}/>
+        {/*Todas as rotas internas ficam dentro do layout principal */}
+        <Route path="/*" element={<Principal/>}/>
+      </Routes>
+    </Router>
   )
 }
