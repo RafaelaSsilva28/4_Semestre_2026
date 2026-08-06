@@ -26,32 +26,7 @@ export default function Inicial() {
                     </span>
                 </div>
 
-                {/* ATALHOS DAS AULAS */}
-                <div className="hidden md:flex items-center gap-6 text-sm font-medium text-pink-100">
-                    <button
-                        type="button"
-                        onClick={() => navigate("/aula01")}
-                        className="hover:text-white transition-colors cursor-pointer"
-                    >
-                        Aula 01
-                    </button>
-
-                    <button
-                        type="button"
-                        onClick={() => navigate("/aula02")}
-                        className="hover:text-white transition-colors cursor-pointer"
-                    >
-                        Aula 02
-                    </button>
-
-                    <button
-                        type="button"
-                        onClick={() => navigate("/aula03")}
-                        className="hover:text-white transition-colors cursor-pointer"
-                    >
-                        Aula 03
-                    </button>
-                </div>
+                
 
                 {/* BOTÃO SAIR */}
                 <button
