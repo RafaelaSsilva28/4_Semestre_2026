@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { onMessage, TOPICO_ESTADO_LED, TOPICO_STATUS } from "../services/mqttClient.js";
+import { publicar, onMessage, TOPICO_ESTADO_LED, TOPICO_STATUS } from "../services/mqttClient.js";
 
 
 const router = Router();
@@ -30,6 +30,26 @@ router.get('/status', async(re, res) =>{
         })
     }catch(error){
         return res.status(500).json({error: 'Erro ao obter dados'})
+    }
+})
+
+router.post('/comando', async(req, res) =>{
+    const {comando} = req.body;
+
+    try{
+        //publicando no topico assinado
+        await publicar(TOPICO_STATUS, comando)
+        const estadoLed = comando === 'LIGADO' ? '1' : '0';
+        await publicar(TOPICO_ESTADO_LED, estadoLed)
+
+        return res.status(200).json({
+            message: "Comando enviado",
+            status: comando,
+            estadoLed: estadoLed
+        })
+        }
+    catch(error){
+        return res.status(500).json({error: 'Erro ao enviar comando'})
     }
 })
 export default router

@@ -15,7 +15,26 @@ export default function TelaLed() {
             console.log("Erro ao buscar dados");
             
         }
+    };
+
+    const enviarComando = async(comando) => {
+        try{
+            const resposta = await fetch(`${enderecoServidor}/controleLed/comando`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({comando})
+            })
+            console.log(resposta.message);
+            buscarStatus()
+        }
+        catch(error){
+            console.log("Erro ao enviar comando");
+            
+        }
     }
+
     useEffect(() =>{
         buscarDados();
         const intervalo = setInterval(buscarDados, 5000)
@@ -34,11 +53,23 @@ export default function TelaLed() {
                 </span>
 
             </h1>
+            
+        <div className="flex items-center gap-4 mt-10 bg-purple-300 p-5 rounded-3xl">
 
-            <p className=" text-3xl md:text-3xl font-black tracking-tight max-w-4xl leading-tight mt-10 text-blue-100 drop-shadow-md [text-shadow:0_4px_12px_rgba(59,13,246,0.8)]">
-                StatusLed: {statusLed}
-            </p>
+    <p className="text-3xl font-black tracking-tight text-blue-100 drop-shadow-md [text-shadow:0_4px_12px_rgba(59,13,246,0.8)]">
+        StatusLed: {statusLed}
+    </p>
 
+    <button onClick={() => enviarComando('LIGADO')} className="px-5 py-2 bg-gradient-to-tr from-purple-400 to-blue-400 text-white rounded-lg shadow-lg shadow-pink-500/40 transition-all duration-300 hover:scale-105 hover:shadow-xl">
+        Ligar
+    </button>
+
+    <button onClick={() => enviarComando('DESLIGADO')} className="px-5 py-2 bg-gradient-to-tr from-purple-400 to-blue-400 text-white rounded-lg shadow-lg shadow-pink-500/40 transition-all duration-300 hover:scale-105 hover:shadow-xl">
+        Desligar
+    </button>
+    </div>
+        
+            
         </div>
     );
 }

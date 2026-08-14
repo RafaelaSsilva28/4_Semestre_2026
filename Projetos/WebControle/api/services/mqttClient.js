@@ -83,11 +83,34 @@ function conectarMqtt(){
     
     })
 }
+//função de escuta
 function onMessage(topic, callback){
     subscriptions[topic] = callback
 }
+//função para publicar
+function publicar(topic, message){
+    //retorna uma promessa para usar nas rotas 
+    return new Promise((resolve, reject) => {
+        if(!mqttClient || !mqttClient.connected){
+            console.log('MQTT não esta conectado')
+            reject(new Error('Cliente MQTT não esta conectado'))
+            return;
+        }
 
+        mqttClient.publish(topic, message, {retain: true}, (error) =>{
+            if(error){
+                console.log('MQTT: Erro ao publicar', error.message);
+                reject(new Error('Erro ao publicar'))
+                
+            }else{
+                console.log(`MQTT: Enviado ${topic}: ${message}`)
+                resolve(); //deu certp
+                
+            }
+        })
+    })
+}
 conectarMqtt(); //chamando a função
 
 //exportando asfunções para usar em outro local
-export{onMessage, TOPICO_ESTADO_LED, TOPICO_STATUS}
+export{publicar, onMessage, TOPICO_ESTADO_LED, TOPICO_STATUS}
