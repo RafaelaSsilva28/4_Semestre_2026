@@ -1,1 +1,1 @@
-export const enderecoServidor = "http://localhost:3001"
+export const enderecoServidor = "https://webcontroleapi.vercel.app";

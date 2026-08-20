@@ -7,9 +7,9 @@ const MQTT_USERNAME = 'ricardodias';
 const MQTT_PASSWORD = 'TesteSenai1';
 
 // ========== TÓPICOS ==========
-const TOPICO_STATUS = 'aula/36/status';
-const TOPICO_ESTADO_LED = 'aula/36/estadoLed';
-
+const TOPICO_STATUS = 'aula/27/status';
+const TOPICO_ESTADO_LED = 'aula/27/estadoLed';
+const TOPICO_NIVEL_BOIA = "aula/27/nivelBoia"
 
 // ========== VARIÁVEIS GLOBAIS ==========
 let mqttClient = null;          // Guarda a conexão MQTT
@@ -43,7 +43,8 @@ function conectarMqtt(){
         //realizando as incrições em todos os topicos
         const topicos = [
             TOPICO_STATUS,
-            TOPICO_ESTADO_LED
+            TOPICO_ESTADO_LED,
+            TOPICO_NIVEL_BOIA
         ] 
         //PERCORRENDO O VETOR FAZENDO UMA ASSINATURA
         mqttClient.subscribe(topicos, (error) =>{
@@ -113,4 +114,4 @@ function publicar(topic, message){
 conectarMqtt(); //chamando a função
 
 //exportando asfunções para usar em outro local
-export{publicar, onMessage, TOPICO_ESTADO_LED, TOPICO_STATUS}
+export{publicar, onMessage, TOPICO_ESTADO_LED, TOPICO_STATUS, TOPICO_NIVEL_BOIA}

@@ -1,37 +1,60 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
- function Home() {
-  return (
-    <div className='flex flex-col items-center gap-4'>
-      <h1 className="text-center text-4xl md:text-6xl font-black tracking-tight max-w-4xl leading-tight mt-10 text-pink-500 drop-shadow-md [text-shadow:0_4px_12px_rgba(59,130,246,0.8)]">
-
-                HOME</h1>
-      <Link
-        to="/sobre"
-        className="px-5 py-2 bg-gradient-to-tr from-pink-500 to-purple-900 text-white rounded-lg shadow-lg shadow-blue-500/40 transition-all duration-300 hover:scale-105 hover:shadow-xl"
-      >
-        Ir para Sobre
-      </Link>
-    </div>
-  )
-}
-
-function Sobre() {
-  return (
-    <div className='flex flex-col items-center gap-4'>
-    <h1 className="text-center text-4xl md:text-6xl font-black tracking-tight max-w-4xl leading-tight mt-10 text-pink-500 drop-shadow-md [text-shadow:0_4px_12px_rgba(59,130,246,0.8)]">
-                Espaço Sobre </h1>
-      <Link to="/" className='px-5 py-2 bg-gradient-to-tr from-pink-500 to-purple-900 text-white rounded-lg shadow-lg shadow-blue-500/40 transition-all duration-300 hover:scale-105 hover:shadow-xl'>Voltar</Link>
-    </div>
-  )
-}
+import { useState, useEffect } from 'react';
 
 export default function App() {
+  const [personagens, setPersonagens] = useState([]);
+ 
+  const [carregando, setCarregando] = useState(true);
+
+  useEffect(() => {
+    fetch(`https://x8ki-letl-twmt.n7.xano.io/api:115Iu2S9/xpto`)
+      .then((resposta) => resposta.json())
+      .then((dados) => {
+        setPersonagens(dados);
+        setCarregando(false);          
+      })
+      .catch((erro) => {
+        console.error('Erro ao buscar dados:', erro);
+        setCarregando(false);
+      });
+  }, []);
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/sobre" element={<Sobre />} />
-      </Routes>
-    </BrowserRouter>
-  )
+    <div className="min-h-screen bg-slate-900 text-white p-6">
+      <h1 className="text-3xl font-bold text-center mb-8 text-emerald-400">
+        Galeria de Personagens
+      </h1>
+
+      {carregando ? (
+        <p className="text-center text-xl text-slate-400">Carregando personagens...</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          {personagens.map((item) => (
+            <div
+              key={item.id}
+              className="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-emerald-500 transition-all shadow-lg"
+            >
+              <img
+                src={item.url_imagem}
+                alt={item.nome}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4">
+                <h2 className="text-lg font-semibold truncate">{item.nome}</h2>
+                <div className="flex items-center gap-2 mt-2">
+                  <span
+                    className={`w-3 h-3 rounded-full ${
+                      item.status === 'Alive' ? 'bg-green-500' : 'bg-red-500'
+                    }`}
+                  />
+                  <span className="text-sm text-slate-300">
+                    {item.status} - {item.especie}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }

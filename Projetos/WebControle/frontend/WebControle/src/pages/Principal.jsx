@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from "react-router-dom";
 import TelaLed from "./TelaLed";
 import Inicial from "./Inicial";
+import TelaNivel from "./TelaNivel";
 import { useState } from "react";
 import { MdClose, MdMenu } from "react-icons/md";
 import { PiHouseBold } from "react-icons/pi";
@@ -56,6 +57,14 @@ export default function Principal() {
                         <FaRegLightbulb />
                         <span>Controle do LED</span>
                     </Link>
+                    <Link
+                        onClick={() => setMenuAberto(false)}
+                        to="/telaNivel"
+                        className="flex items-center gap-4 hover:bg-white/15 p-2 rounded-lg transition-colors"
+                    >
+                        <FaRegLightbulb />
+                        <span>Tela Nivel</span>
+                    </Link>
 
                 </nav>
             </div>
@@ -72,6 +81,7 @@ export default function Principal() {
                 <Routes>
                     <Route path="/" element={<Inicial />} />
                     <Route path="/telaLed" element={<TelaLed />} />
+                    <Route path="/telaNivel" element={<TelaNivel />} />
                 </Routes>
 
             </div>
