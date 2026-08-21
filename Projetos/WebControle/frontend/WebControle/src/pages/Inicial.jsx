@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Inicial() {
+
     const navigate = useNavigate();
 
     const [pagina, setPagina] = useState(1);
@@ -18,10 +19,13 @@ export default function Inicial() {
                 <header className="max-w-5xl mx-auto px-6 pt-12 pb-16 text-center flex flex-col items-center justify-center gap-4">
 
                     <h1 className="text-4xl md:text-6xl font-black tracking-tight max-w-3xl leading-tight mt-2 text-white drop-shadow-md [text-shadow:0_4px_12px_rgba(59,130,246,0.8)]">
+
                         Bem-vinda ao Espaço do Projeto{" "}
+
                         <span className="underline decoration-blue-100 underline-offset-8 text-purple-200">
                             WebControle
                         </span>
+
                     </h1>
 
                     <p className="text-blue-50 text-base md:text-lg max-w-2xl leading-relaxed font-light mt-2">
@@ -31,6 +35,7 @@ export default function Inicial() {
                     </p>
 
                 </header>
+
 
                 <main className="max-w-7xl mx-auto px-6 pb-12 w-full">
 
@@ -47,14 +52,17 @@ export default function Inicial() {
 
                     </div>
 
+
                     <div className="flex items-center justify-between gap-4 w-full">
 
+                        {/* SETA ESQUERDA */}
                         <button
                             type="button"
                             onClick={alternarPagina}
                             className="bg-indigo-500/30 hover:bg-indigo-500/50 p-3 rounded-full border border-white/30 transition-all cursor-pointer shadow-lg active:scale-95 text-white shrink-0 backdrop-blur-md"
                             aria-label="Ver aulas anteriores"
                         >
+
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -69,11 +77,17 @@ export default function Inicial() {
                                     d="M15.75 19.5L8.25 12l7.5-7.5"
                                 />
                             </svg>
+
                         </button>
+
 
                         <div className="flex-1 max-w-6xl">
 
                             {pagina === 1 ? (
+
+                                /* =========================
+                                   PÁGINA 1 - 3 CARDS
+                                ========================== */
 
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
@@ -100,6 +114,7 @@ export default function Inicial() {
 
                                     </div>
 
+
                                     {/* AULA 02 */}
                                     <div
                                         onClick={() => navigate("/telaNivel")}
@@ -121,25 +136,39 @@ export default function Inicial() {
                                         </p>
 
                                     </div>
+
+
                                     {/* AULA 03 */}
-<div
-    onClick={() => navigate("/telaUmid")}
-    className="bg-linear-to-br from-blue-500 via-indigo-500 to-violet-500 p-8 rounded-2xl shadow-xl border border-white/20 hover:scale-[1.03] hover:shadow-2xl transition-all duration-300 flex flex-col gap-3 cursor-pointer group text-white"
->
-    <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white font-bold group-hover:bg-white/30 transition-colors">
-        03
-    </div>
+                                    <div
+                                        onClick={() => navigate("/telaUmid")}
+                                        className="bg-linear-to-br from-blue-500 via-indigo-500 to-violet-500 p-8 rounded-2xl shadow-xl border border-white/20 hover:scale-[1.03] hover:shadow-2xl transition-all duration-300 flex flex-col gap-3 cursor-pointer group text-white"
+                                    >
 
-    <h3 className="text-xl font-bold">
-        Aula 03: Umidade do Solo
-    </h3>
+                                        <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white font-bold group-hover:bg-white/30 transition-colors">
+                                            03
+                                        </div>
 
-    <p className="text-blue-50 text-sm leading-relaxed font-light">
-        Monitoramento da umidade do solo utilizando ESP32,
-        sensor analógico e comunicação MQTT através de uma
-        interface web.
-    </p>
-</div>
+                                        <h3 className="text-xl font-bold">
+                                            Aula 03: Umidade do Solo
+                                        </h3>
+
+                                        <p className="text-blue-50 text-sm leading-relaxed font-light">
+                                            Monitoramento da umidade do solo utilizando
+                                            ESP32, sensor analógico e comunicação MQTT
+                                            através de uma interface web.
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            ) : (
+
+                                /* =========================
+                                   PÁGINA 2
+                                ========================== */
+
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
                                     {/* PRÓXIMOS MÓDULOS */}
                                     <div className="bg-linear-to-br from-indigo-400/60 via-violet-400/60 to-blue-400/60 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-dashed border-white/30 flex flex-col gap-3">
@@ -161,32 +190,12 @@ export default function Inicial() {
 
                                 </div>
 
-                            ) : (
-
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-                                    <div className="bg-linear-to-br from-indigo-400/60 via-violet-400/60 to-blue-400/60 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-dashed border-white/30 flex flex-col gap-3">
-
-                                        <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center text-white font-bold">
-                                            +
-                                        </div>
-
-                                        <h3 className="text-xl font-bold text-white">
-                                            Próximas Aulas
-                                        </h3>
-
-                                        <p className="text-blue-50 text-sm leading-relaxed font-light">
-                                            As próximas atividades aparecerão aqui.
-                                        </p>
-
-                                    </div>
-
-                                </div>
-
                             )}
 
                         </div>
 
+
+                        {/* SETA DIREITA */}
                         <button
                             type="button"
                             onClick={alternarPagina}
@@ -213,6 +222,8 @@ export default function Inicial() {
 
                     </div>
 
+
+                    {/* INDICADORES DAS PÁGINAS */}
                     <div className="flex items-center justify-center gap-2 mt-8">
 
                         <button
@@ -242,6 +253,7 @@ export default function Inicial() {
                 </main>
 
             </div>
+
 
             <footer className="text-center py-6 px-4 text-sm text-blue-50/80 border-t border-white/20">
                 Disciplina de Front-end integrada
