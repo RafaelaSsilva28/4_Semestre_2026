@@ -1,13 +1,20 @@
 import { Routes, Route, Link } from "react-router-dom";
+
 import TelaLed from "./TelaLed";
 import Inicial from "./Inicial";
 import TelaNivel from "./TelaNivel";
+import TelaUmid from "./TelaUmid";
+
 import { useState } from "react";
+
 import { MdClose, MdMenu } from "react-icons/md";
-import { PiHouseBold } from "react-icons/pi";
-import { FaRegLightbulb } from "react-icons/fa";
+import { HiOutlineHome } from "react-icons/hi2";
+import { PiLightbulbFilament } from "react-icons/pi";
+import { LuWaves } from "react-icons/lu";
+import { GiPlantRoots } from "react-icons/gi";
 
 export default function Principal() {
+
     const [menuAberto, setMenuAberto] = useState(false);
 
     return (
@@ -25,7 +32,9 @@ export default function Principal() {
                 ${menuAberto ? "translate-x-0" : "-translate-x-full"}
                 `}
             >
+
                 <div className="flex justify-between items-center mb-6">
+
                     <span className="text-xl font-bold">
                         Menu
                     </span>
@@ -34,40 +43,73 @@ export default function Principal() {
                         onClick={() => setMenuAberto(false)}
                         className="md:hidden"
                     >
-                        <MdClose className="w-5 h-5" />
+                        <MdClose className="w-6 h-6" />
                     </button>
+
                 </div>
+
 
                 <nav className="space-y-4">
 
+                    {/* HOME */}
                     <Link
                         onClick={() => setMenuAberto(false)}
                         to="/"
-                        className="flex items-center gap-4 hover:bg-white/15 p-2 rounded-lg transition-colors"
+                        className="flex items-center gap-4 hover:bg-white/10 p-2 rounded-lg transition-colors"
                     >
-                        <PiHouseBold />
-                        <span>Home</span>
+                        <HiOutlineHome className="text-2xl shrink-0" />
+
+                        <span>
+                            Home
+                        </span>
                     </Link>
 
+
+                    {/* CONTROLE DO LED */}
                     <Link
                         onClick={() => setMenuAberto(false)}
                         to="/telaLed"
-                        className="flex items-center gap-4 hover:bg-white/15 p-2 rounded-lg transition-colors"
+                        className="flex items-center gap-4 hover:bg-white/10 p-2 rounded-lg transition-colors"
                     >
-                        <FaRegLightbulb />
-                        <span>Controle do LED</span>
+                        <PiLightbulbFilament className="text-2xl shrink-0" />
+
+                        <span>
+                            Controle do LED
+                        </span>
                     </Link>
+
+
+                    {/* NÍVEL DA ÁGUA */}
                     <Link
                         onClick={() => setMenuAberto(false)}
                         to="/telaNivel"
-                        className="flex items-center gap-4 hover:bg-white/15 p-2 rounded-lg transition-colors"
+                        className="flex items-center gap-4 hover:bg-white/10 p-2 rounded-lg transition-colors"
                     >
-                        <FaRegLightbulb />
-                        <span>Tela Nivel</span>
+                        <LuWaves className="text-2xl shrink-0" />
+
+                        <span>
+                            Nível da Água
+                        </span>
+                    </Link>
+
+
+                    {/* UMIDADE DO SOLO */}
+                    <Link
+                        onClick={() => setMenuAberto(false)}
+                        to="/telaUmid"
+                        className="flex items-center gap-4 hover:bg-white/10 p-2 rounded-lg transition-colors"
+                    >
+                        <GiPlantRoots className="text-2xl shrink-0" />
+
+                        <span>
+                            Umidade do Solo
+                        </span>
                     </Link>
 
                 </nav>
+
             </div>
+
 
             <div className="flex-1 text-black w-full overflow-auto relative">
 
@@ -78,10 +120,29 @@ export default function Principal() {
                     <MdMenu className="w-7 h-7" />
                 </button>
 
+
                 <Routes>
-                    <Route path="/" element={<Inicial />} />
-                    <Route path="/telaLed" element={<TelaLed />} />
-                    <Route path="/telaNivel" element={<TelaNivel />} />
+
+                    <Route
+                        path="/"
+                        element={<Inicial />}
+                    />
+
+                    <Route
+                        path="/telaLed"
+                        element={<TelaLed />}
+                    />
+
+                    <Route
+                        path="/telaNivel"
+                        element={<TelaNivel />}
+                    />
+
+                    <Route
+                        path="/telaUmid"
+                        element={<TelaUmid />}
+                    />
+
                 </Routes>
 
             </div>

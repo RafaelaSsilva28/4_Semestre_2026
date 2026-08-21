@@ -121,6 +121,25 @@ export default function Inicial() {
                                         </p>
 
                                     </div>
+                                    {/* AULA 03 */}
+<div
+    onClick={() => navigate("/telaUmid")}
+    className="bg-linear-to-br from-blue-500 via-indigo-500 to-violet-500 p-8 rounded-2xl shadow-xl border border-white/20 hover:scale-[1.03] hover:shadow-2xl transition-all duration-300 flex flex-col gap-3 cursor-pointer group text-white"
+>
+    <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white font-bold group-hover:bg-white/30 transition-colors">
+        03
+    </div>
+
+    <h3 className="text-xl font-bold">
+        Aula 03: Umidade do Solo
+    </h3>
+
+    <p className="text-blue-50 text-sm leading-relaxed font-light">
+        Monitoramento da umidade do solo utilizando ESP32,
+        sensor analógico e comunicação MQTT através de uma
+        interface web.
+    </p>
+</div>
 
                                     {/* PRÓXIMOS MÓDULOS */}
                                     <div className="bg-linear-to-br from-indigo-400/60 via-violet-400/60 to-blue-400/60 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-dashed border-white/30 flex flex-col gap-3">
