@@ -1,41 +1,40 @@
 import { Router } from "express";
+
 const router = Router();
 
 let ultimaLeitura = null;
 
-// 1. Captura a leitura da tag RFID/Cartão
-router.post('/leitura', (req, res) => {
-    const { uid } = req.body;
+// ESP32 envia a leitura
+router.post('/cadastro', (req, res) => {
+  const { uid } = req.body;
+  if (!uid) return res.status(400).json({ error: 'UID não informado' });
 
-    if (!uid) {
-        return res.status(400).json({ error: "O campo 'uid' é obrigatório e não foi enviado." });
-    }
-
-    ultimaLeitura = uid;
-    console.log(`Tag lida: ${uid}`);
-    return res.status(200).json({ mensagem: 'Cartão capturado com sucesso', uid });
+  ultimaLeitura = uid;
+  console.log(`[CADASTRO] Cartão capturado: ${uid}`);
+  res.json({ mensagem: 'Cartão capturado com sucesso', uid });
 });
 
-// 2. Retorna a última tag lida
-router.get('/leitura', (req, res) => {
-    return res.json({ uid: ultimaLeitura });
+// React consulta a leitura
+router.get('/ultima-leitura', (req, res) => {
+  res.json({ uid: ultimaLeitura });
 });
 
-// 3. Cadastra o usuário associando ao UID (Alterado para POST)
-router.post('/cadastrar', async (req, res) => { // Adicionado 'async' aqui
-    const { nome, uid } = req.body;
-    try {
-        
 
-        
-        const comando = `INSERT INTO usuarios (nome, uid) VALUES ($1, $2) RETURNING id, nome, uid`;
-        const result =  await BroadcastChannel.quey(comando, [nome, uid]);
-        
-        ultimaLeitura = null; //limpando a variavel
-        return res.status(201).json({ mensagem: "Usuário cadastrado com sucesso" });
-    } catch {
-        return res.status(500).json({ mensagem: "Erro ao cadastrar usuario (UID pode ja existir)" + erro });
-    }
+// // 3. React salva o usuário + cartão no PostgreSQL
+router.post('/cadastrar', async (req, res) => {
+  const { nome, uid_cartao } = req.body;
+
+  try {
+    const query = 'INSERT INTO usuarios (nome, uid) VALUES ($1, $2) RETURNING *';
+    const result = await BD.query(query, [nome, uid]);
+
+    // Limpa a variável após salvar com sucesso
+    ultimaLeitura = null;
+
+    return res.status(201).json({ mensagem: 'Usuário cadastrado!', usuario: result.rows[0] });
+  } catch (erro) {
+    return res.status(500).json({ erro: 'Erro ao cadastrar usuário (UID pode já existir)' + erro });
+  }
 });
 
-export default router;
+export default router
