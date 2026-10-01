@@ -1,11 +1,11 @@
 import { Router } from "express";
-
+import {DB} from "../db.js"
 const router = Router();
 
 let ultimaLeitura = null;
 
 // ESP32 envia a leitura
-router.post('/cadastro', (req, res) => {
+router.post('/leitura', (req, res) => {
   const { uid } = req.body;
   if (!uid) return res.status(400).json({ error: 'UID não informado' });
 
@@ -15,13 +15,13 @@ router.post('/cadastro', (req, res) => {
 });
 
 // React consulta a leitura
-router.get('/ultima-leitura', (req, res) => {
+router.get('/leitura', (req, res) => {
   res.json({ uid: ultimaLeitura });
 });
 
 
 // // 3. React salva o usuário + cartão no PostgreSQL
-router.post('/cadastrar', async (req, res) => {
+router.post('/cadastrar=', async (req, res) => {
   const { nome, uid_cartao } = req.body;
 
   try {
@@ -36,5 +36,38 @@ router.post('/cadastrar', async (req, res) => {
     return res.status(500).json({ erro: 'Erro ao cadastrar usuário (UID pode já existir)' + erro });
   }
 });
+
+// 4. Endpoint que ira registrar o historico de acessos
+router.post('/registrar', async(req, res) =>{
+  const {uid} = req.body;
+  try{
+    //buscando o usuario   --consultando apartir do numero do cartão
+    const usuario = await BD.query(`SELECT * FROM USUARIOS WHERE uid = $1`, [uid])
+
+    if(usuario.rows.length === 0){
+      return res.status(404).json({
+        erro: "Acesso Negado"
+      })
+    }
+    const ultimoAcesso = await BD.query(`
+      SELECT tipo_movimento
+      FROM historico_acessos
+      WHERE uid = $1
+      ORDER BY id DESC
+      LIMIT 1`, [uid])
+  
+  let tipoMovimento = "ENTRADA";
+  if(ultimoAcesso.rows.length > 0 && ultimoAcesso.rows[0].tipoMovimento === "ENTRADA"){
+    tipoMovimento = "SAIDA";
+  }
+  //gravando no banco a informação
+  await BD.query(`
+    INSERT INTO historico_acessos(uid, tipo_movimento, status_acesso) VALUES($1, $2, $3)`, [uid, tipoMovimento, 'LIBERADO'])
+
+    return res.status(201).json({mensagem: `${tipoMovimento} registrada com sucesso`})
+  }catch(erro){
+    return res.status(500).json({erro: erro.mensagem})
+  }
+})
 
 export default router

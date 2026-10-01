@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { authService } from "../services/authService";
 
 export default function LoginPage({ onLoginSuccess }) {
@@ -12,28 +12,38 @@ export default function LoginPage({ onLoginSuccess }) {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setError('');
+        setError("");
         setLoading(true);
+
         try {
             await authService.login(email, password);
             onLoginSuccess();
             navigate("/");
         } catch (err) {
-            setError(err.message || "Falha ao realizar Login. Verifique suas credenciais");
+            setError(err.message || "Falha ao realizar login. Verifique suas credenciais.");
         } finally {
             setLoading(false);
         }
     };
-    return(
+
+    return (
         <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4">
             <div className="max-w-md w-full bg-white rounded-xl shadow-md p-6 space-y-4">
-                <h2 className="text-2xl font-bold text-slate-800 text-center">FinanControl</h2>
+                <h2 className="text-2xl font-bold text-slate-800 text-center">
+                    FinanControl
+                </h2>
 
-                {error && <div className="p-3 bg-red-100 text-red-700 text-sm rounded-lg">{error}</div>}
+                {error && (
+                    <div className="p-3 bg-red-100 text-red-700 text-sm rounded-lg">
+                        {error}
+                    </div>
+                )}
 
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleLogin} className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-slate-600 mb-1">E-mail</label>
+                        <label className="block text-sm font-medium text-slate-600 mb-1">
+                            E-mail
+                        </label>
                         <input
                             type="email"
                             required
@@ -44,7 +54,9 @@ export default function LoginPage({ onLoginSuccess }) {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-slate-600 mb-1">Senha</label>
+                        <label className="block text-sm font-medium text-slate-600 mb-1">
+                            Senha
+                        </label>
                         <input
                             type="password"
                             required
@@ -59,19 +71,19 @@ export default function LoginPage({ onLoginSuccess }) {
                         disabled={loading}
                         className="w-full bg-blue-600 text-white font-medium py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
                     >
-                        {loading ? 'Entrando...' : 'Entrar'}
+                        {loading ? "Entrando..." : "Entrar"}
                     </button>
                 </form>
+
                 <div className="text-center pt-2">
                     <p className="text-xs text-slate-500">
-                        Ainda não tem conta?{' '}
+                        Ainda não tem conta?{" "}
                         <Link to="/register" className="text-blue-600 font-semibold hover:underline">
                             Cadastre-se aqui
                         </Link>
                     </p>
                 </div>
             </div>
-
         </div>
-    )
+    );
 }

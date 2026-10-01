@@ -1,27 +1,29 @@
-export const API_URL = 'https://apifinancontrol-phi.vercel.app';
+export const API_URL = "https://apifinancontrol-phi.vercel.app";
 
-export async function apiFetch(baseUrl, endpoint, method = 'GET', body = null) {
-    const token = localStorage.getItem('token');
+export async function apiFetch(baseUrl, endpoint, method = "GET", body = null) {
+  const token = localStorage.getItem("token");
 
-    const headers = {
-        'Content-Type': 'application/json',
-        ...API_URL(token && {Authorization: `Bearer ${token}`}),
-    };
+  const headers = {
+    "Content-Type": "application/json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
 
-
-const config = {
+  const response = await fetch(`${baseUrl}${endpoint}`, {
     method,
     headers,
-    ...(body && {body: JSON.stringify(body) }),
-};
+    ...(body !== null ? { body: JSON.stringify(body) } : {}),
+  });
 
-const response = await fetch (`${baseUrl}${endpoint}`, config);
-
-if (!response.ok){
+  if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || `Erro ${response.status}: Falha na requisição`)
-}
-if (response.status === 204) return null;
+    throw new Error(
+      errorData.message ||
+        errorData.error ||
+        `Erro ${response.status}: falha na requisição`
+    );
+  }
 
-return response.json();
+  if (response.status === 204) return null;
+
+  return response.json();
 }
